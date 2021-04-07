@@ -7,15 +7,10 @@ int chooseBestDistance(int t, int k, List<int> ls) {
     return -1;
   }
   var distanceBetweenThreeCities = <int>[];
-  var result = 0;
+  var result = -1;
   var limitMaxDistance = t;
   for (var i = 0; i < ls.length; i++) {
-    for (var j = i + 1; j < ls.length; j++) {
-      for (var k = j + 1; k < ls.length; k++) {
-        var dis = ls[i] + ls[j] + ls[k];
-        distanceBetweenThreeCities.add(dis);
-      }
-    }
+        distanceBetweenThreeCities.add(calculateDistance(ls[i], k -1, ls.sublist(i+1, ls.length)));
   }
   for (var i = 0; i < distanceBetweenThreeCities.length; i++) {
     if(distanceBetweenThreeCities[i] <= t){
@@ -26,4 +21,12 @@ int chooseBestDistance(int t, int k, List<int> ls) {
     }
   }
   return result;
+}
+int calculateDistance (int start, int countCity, List<int> dist){
+  var result = start;
+  if(countCity > 0 && dist.length >= countCity) {
+    return calculateDistance (start + dist[0], countCity - 1, dist.sublist(1, dist.length));
+  } else {
+    return result;
+  }
 }
